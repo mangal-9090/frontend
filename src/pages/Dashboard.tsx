@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import AuthContext from "../context/AuthContext";
 import { LogOut } from "lucide-react"; // ✅ Icon for logout button
 import { io, Socket } from "socket.io-client";
+import { API_BASE_URL } from "../config";
 
 const Dashboard = () => {
   const auth = useContext(AuthContext);
@@ -21,9 +22,12 @@ const Dashboard = () => {
     queryFn: fetchEvents,
   });
 
-  // ✅ Set up WebSocket connection inside `useEffect`
+  //  Set up WebSocket connection inside `useEffect`
   useEffect(() => {
-    const newSocket = io("http://localhost:5000"); // ✅ Create WebSocket connection
+    const newSocket = io(API_BASE_URL,{
+      transports: ["websocket", "polling"],
+      withCredentials: true,
+    }); //  Create WebSocket connection
     setSocket(newSocket);
 
     newSocket.on("attendeeCount", (count) => {
