@@ -10,7 +10,7 @@ const ProtectedRoute = () => {
     return <Navigate to="/login" replace />;
   }
 
-  // 🔹 Prevent Guest Users from Accessing Certain Pages
+  //Preventing Guest Users from Accessing Certain Pages
   if (auth.user.role === "guest") {
     return <Navigate to="/dashboard" replace />;
   }

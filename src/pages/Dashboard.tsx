@@ -5,14 +5,14 @@ import EventForm from "../components/EventForm";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import AuthContext from "../context/AuthContext";
-import { LogOut } from "lucide-react"; // ✅ Icon for logout button
+import { LogOut } from "lucide-react";
 import { io, Socket } from "socket.io-client";
 import { API_BASE_URL } from "../config";
 
 const Dashboard = () => {
   const auth = useContext(AuthContext);
 
-  // ✅ Move WebSocket to State
+   
   const [socket, setSocket] = useState<Socket | null>(null);
   const [attendeeCount, setAttendeeCount] = useState(0);
   const [filter, setFilter] = useState<"all" | "upcoming" | "past">("all");
@@ -22,12 +22,12 @@ const Dashboard = () => {
     queryFn: fetchEvents,
   });
 
-  //  Set up WebSocket connection inside `useEffect`
+  
   useEffect(() => {
     const newSocket = io(API_BASE_URL,{
       transports: ["websocket", "polling"],
       withCredentials: true,
-    }); //  Create WebSocket connection
+    });
     setSocket(newSocket);
 
     newSocket.on("attendeeCount", (count) => {
@@ -36,9 +36,9 @@ const Dashboard = () => {
     });
 
     return () => {
-      newSocket.disconnect(); // ✅ Cleanup on unmount
+      newSocket.disconnect();
     };
-  }, []); // ✅ Runs only once
+  }, []);
 
   const handleJoinEvent = () => {
     if (socket) socket.emit("joinEvent");
@@ -51,7 +51,6 @@ const Dashboard = () => {
   if (isLoading) return <p className="text-center">Loading...</p>;
   if (error) return <p className="text-center text-red-500">Error fetching events</p>;
 
-  // ✅ Filter Events Based on Date
   const now = new Date();
   const filteredEvents = events?.filter((event: any) => {
     const eventDate = new Date(event.date);
@@ -62,7 +61,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-200 p-6 relative">
-      {/* ✅ Circular Logout Button */}
+     
       <Button
         onClick={auth?.logout}
         className="absolute top-6 right-6 bg-red-500 hover:bg-red-600 text-white rounded-full p-3 shadow-md"
@@ -83,7 +82,7 @@ const Dashboard = () => {
         </Button>
       </div>
 
-      {/* ✅ Event Filters */}
+     
       <div className="flex justify-center gap-4 mb-6">
         <Button onClick={() => setFilter("all")} className={filter === "all" ? "bg-blue-600" : ""}>
           All Events
@@ -96,10 +95,10 @@ const Dashboard = () => {
         </Button>
       </div>
 
-      {/* ✅ Event Creation Form */}
+     
       <EventForm />
 
-      {/* ✅ Display Filtered Events */}
+      
       {filteredEvents.length === 0 ? (
         <p className="text-center text-gray-600">No events found</p>
       ) : (

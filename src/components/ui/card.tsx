@@ -2,7 +2,7 @@ import * as React from "react";
 
 export interface CardProps {
   children: React.ReactNode;
-  className?: string; // ✅ Allow className as a prop
+  className?: string;
 }
 
 export function Card({ children, className }: CardProps) {

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../config";
 
-// ✅ Define the AuthContext Type
+
 interface AuthContextType {
   user: any | null;
   register: (name: string, email: string, password: string) => Promise<void>;
@@ -12,14 +12,13 @@ interface AuthContextType {
   logout: () => void;
 }
 
-// ✅ Provide a default value matching the type
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any | null>(null);
   const navigate = useNavigate();
 
-  // 🔹 Register Function
+  //Register Function
   const register = async (name: string, email: string, password: string) => {
     try {
       const res = await axios.post(`${API_BASE_URL}/api/auth/register`, {
@@ -34,7 +33,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // 🔹 Login Function
+  //Login Function
   const login = async (email: string, password: string) => {
     try {
       const res = await axios.post(`${API_BASE_URL}/api/auth/login`, {
@@ -50,7 +49,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // 🔹 Guest Login (Limited Access)
+  //Guest Login (Limited Access)
   const guestLogin = async () => {
     try {
       const res = await axios.post(`${API_BASE_URL}/api/auth/guest-login`);
@@ -63,7 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // 🔹 Logout Function
+  //Logout Function
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);

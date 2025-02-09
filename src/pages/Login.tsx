@@ -71,7 +71,7 @@ const Login = () => {
             </Button>
           </form>
 
-          {/* ✅ Guest Login Button */}
+         
           <div className="text-center mt-4">
             <Button onClick={guestLogin} className="w-full bg-gray-600 hover:bg-gray-700">
               Continue as Guest
