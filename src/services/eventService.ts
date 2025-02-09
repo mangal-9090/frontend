@@ -9,7 +9,9 @@ export const fetchEvents = async () => {
 };
 
 export const createEvent = async (eventData: any) => {
-  const response = await axios.post(API_URL, eventData);
+  const response = await axios.post(API_URL, eventData,{
+    headers:{"Content-Type": "application/json"},
+  });
   return response.data;
 };
 

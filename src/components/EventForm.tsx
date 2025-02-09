@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 
 const EventForm = () => {
   const [event, setEvent] = useState({
@@ -15,11 +16,13 @@ const EventForm = () => {
 
   const mutation = useMutation({
     mutationFn: async (newEvent: any) => {
-      return await axios.post("http://127.0.0.1:5000/api/events", newEvent);
+      return await axios.post(`${API_BASE_URL}/api/events`, newEvent, {
+        headers: { "Content-Type": "application/json" },
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
- // Refresh event list
+ 
       setEvent({ name: "", description: "", date: "", location: "", category: "Workshop" });
       alert("Event Created Successfully!");
     },
