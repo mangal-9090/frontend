@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 // ✅ Define the AuthContext Type
 interface AuthContextType {
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // 🔹 Register Function
   const register = async (name: string, email: string, password: string) => {
     try {
-      const res = await axios.post("http://127.0.0.1:5000/api/auth/register", {
+      const res = await axios.post(`${API_BASE_URL}/api/auth/register`, {
         name,
         email,
         password,
@@ -36,7 +37,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // 🔹 Login Function
   const login = async (email: string, password: string) => {
     try {
-      const res = await axios.post("http://127.0.0.1:5000/api/auth/login", {
+      const res = await axios.post(`${API_BASE_URL}/api/auth/login`, {
         email,
         password,
       });
@@ -52,7 +53,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // 🔹 Guest Login (Limited Access)
   const guestLogin = async () => {
     try {
-      const res = await axios.post("http://127.0.0.1:5000/api/auth/guest-login");
+      const res = await axios.post(`${API_BASE_URL}/api/auth/guest-login`);
       console.log("✅ Guest Login Successful:", res.data);
       localStorage.setItem("token", res.data.token);
       setUser(res.data.user);
